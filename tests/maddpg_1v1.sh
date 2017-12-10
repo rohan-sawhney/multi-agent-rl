@@ -1,0 +1,1 @@
+python3 ../maddpg_tag.py --env simple_tag_guided --experiment_prefix ./results/maddpg_1v1/
