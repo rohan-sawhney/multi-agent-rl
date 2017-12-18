@@ -7,7 +7,7 @@ import general_utilities
 class Actor:
 
     def __init__(self, scope, session, n_actions, action_bound,
-                 eval_states, target_states, learning_rate=0.0001, tau=0.001):
+                 eval_states, target_states, learning_rate=0.001, tau=0.01):
         self.session = session
         self.n_actions = n_actions
         self.action_bound = action_bound
@@ -37,10 +37,7 @@ class Actor:
             h1 = tf.layers.dense(x, 50, activation=tf.nn.relu,
                                  kernel_initializer=W, bias_initializer=b,
                                  name='h1', trainable=trainable)
-            h2 = tf.layers.dense(h1, 50, activation=tf.nn.relu,
-                                 kernel_initializer=W, bias_initializer=b,
-                                 name='h2', trainable=trainable)
-            actions = tf.layers.dense(h2, self.n_actions, activation=tf.nn.tanh,
+            actions = tf.layers.dense(h1, self.n_actions, activation=tf.nn.tanh,
                                       kernel_initializer=W, bias_initializer=b,
                                       name='actions', trainable=trainable)
             scaled_actions = tf.multiply(actions, self.action_bound,
@@ -70,7 +67,7 @@ class Critic:
 
     def __init__(self, scope, session, n_actions, actor_eval_actions,
                  actor_target_actions, eval_states, target_states,
-                 rewards, learning_rate=0.001, gamma=0.9, tau=0.001):
+                 rewards, learning_rate=0.001, gamma=0.9, tau=0.01):
         self.session = session
         self.n_actions = n_actions
         self.actor_eval_actions = actor_eval_actions

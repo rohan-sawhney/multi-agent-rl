@@ -66,7 +66,7 @@ def play(episodes, is_render, is_testing, checkpoint_interval,
 
                 for i in range(env.n):
                     if done[i]:
-                        rewards[i] -= 50
+                        rewards[i] -= 500
 
                     memories[i].remember(states[i], actions[i],
                                          rewards[i], states_next[i], done[i])
@@ -143,7 +143,7 @@ if __name__ == '__main__':
                         help="where to load network weights")
     parser.add_argument('--random_seed', default=2, type=int)
     parser.add_argument('--memory_size', default=10000, type=int)
-    parser.add_argument('--batch_size', default=128, type=int)
+    parser.add_argument('--batch_size', default=32, type=int)
     parser.add_argument('--ou_mus', nargs='+', type=float,
                         help="OrnsteinUhlenbeckActionNoise mus for each action for each agent")
     parser.add_argument('--ou_sigma', nargs='+', type=float,
@@ -242,7 +242,7 @@ if __name__ == '__main__':
         state = tf.placeholder(tf.float32, shape=[None, state_size])
         reward = tf.placeholder(tf.float32, [None, 1])
         state_next = tf.placeholder(tf.float32, shape=[None, state_size])
-        speed = 0.9 if env.agents[i].adversary else 1
+        speed = 0.8 if env.agents[i].adversary else 1
 
         actors.append(Actor('actor' + str(i), session, n_action, speed,
                             state, state_next))
